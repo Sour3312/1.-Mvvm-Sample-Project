@@ -119,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           focusNode: passfn,
                           keyboardType: TextInputType.visiblePassword,
                           obscureText: _obsecurePasswrd.value,
-                          obscuringCharacter: "^",
+                          obscuringCharacter: "*",
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: 'Password',

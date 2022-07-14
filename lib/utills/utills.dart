@@ -15,8 +15,8 @@ class Utills {
   static toastMessage(String msg) {
     Fluttertoast.showToast(
         msg: msg,
-        backgroundColor: Colors.white,
-        textColor: Colors.blue,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
         toastLength: Toast.LENGTH_LONG);
   }
 
