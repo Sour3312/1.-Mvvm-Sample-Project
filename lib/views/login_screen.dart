@@ -5,6 +5,8 @@ import 'package:mvvm_with_map/resources/color.dart';
 import 'package:mvvm_with_map/resources/components/round_btn.dart';
 import 'package:mvvm_with_map/utills/Routes/routes_name.dart';
 import 'package:mvvm_with_map/utills/utills.dart';
+import 'package:mvvm_with_map/view_model/Auth_view_model.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -21,13 +23,13 @@ class _LoginScreenState extends State<LoginScreen> {
   FocusNode passfn = FocusNode();
 
   // var callUtills = Utills(); //when function is not defied static
-  final TextEditingController _email = TextEditingController();
+  TextEditingController _email = TextEditingController();
 
-  final TextEditingController _mob = TextEditingController();
+  TextEditingController _mob = TextEditingController();
   //for hide & unhide password
-  final ValueNotifier<bool> _obsecurePasswrd = ValueNotifier<bool>(false);
+  ValueNotifier<bool> _obsecurePasswrd = ValueNotifier<bool>(false);
 
-  final TextEditingController _passwrd = TextEditingController();
+  TextEditingController _passwrd = TextEditingController();
 
   @override
   //releases RAM when you get out of this page
@@ -44,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authViewMode = Provider.of<AuthViewModel>(context);
     final height = MediaQuery.of(context).size.height * 1;
 
     return Scaffold(
@@ -91,22 +94,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         hintText: 'Enter valid email id as abc@gmail.com'),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: 15.0, right: 15.0, top: 15, bottom: 0),
-                  child: TextFormField(
-                    controller: _mob,
-                    focusNode: mobfn,
-                    keyboardType: TextInputType.number,
-                    onFieldSubmitted: (value) {
-                      Utills.fieldFocusChange(context, mobfn, passfn);
-                    },
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Mobile',
-                        hintText: 'Enter your 10 digit mobile no.'),
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.only(
+                //       left: 15.0, right: 15.0, top: 15, bottom: 0),
+                //   child: TextFormField(
+                //     controller: _mob,
+                //     focusNode: mobfn,
+                //     keyboardType: TextInputType.number,
+                //     onFieldSubmitted: (value) {
+                //       Utills.fieldFocusChange(context, mobfn, passfn);
+                //     },
+                //     decoration: InputDecoration(
+                //         border: OutlineInputBorder(),
+                //         labelText: 'Mobile',
+                //         hintText: 'Enter your 10 digit mobile no.'),
+                //   ),
+                // ),
                 ValueListenableBuilder(
                     //for hide n unhide
                     valueListenable: _obsecurePasswrd, //for hide n unhide
@@ -152,16 +155,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (_email.text.isEmpty) {
                       Utills.flushBarErrorMessage(
                           "Please enter your email first", context);
-                    } else if (_mob.text.isEmpty) {
-                      Utills.flushBarErrorMessage(
-                          "Please Enter ur mobile no.", context);
-                    } else if (_passwrd.text.isEmpty) {
+                    }
+                    // else if (_mob.text.isEmpty) {
+                    //   Utills.flushBarErrorMessage(
+                    //       "Please Enter ur mobile no.", context);
+                    // }
+                    else if (_passwrd.text.isEmpty) {
                       Utills.flushBarErrorMessage(
                           "Please fill the Password ", context);
-                    } else if (_passwrd.text.length < 8) {
+                    } else if (_passwrd.text.length < 4) {
                       Utills.flushBarErrorMessage(
                           "Password length must be 8", context);
                     } else {
+                      Map data = {
+                        'email': _email.text.toString(),
+                        'password': _passwrd.text.toString()
+                      };
+                      authViewMode.loginApi(data, context);
+                      print("Api hit $data $context");//
                       Utills.toastMessage("Api Hitted");
                     }
                   },

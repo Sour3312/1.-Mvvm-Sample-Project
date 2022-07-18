@@ -21,7 +21,7 @@ class NetworkApiServices extends BaseApiServices {
     }
     return responseJson;
   }
-
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   @override
   Future getPostApiResponse(String url, dynamic data) async {
     dynamic responseJson;
@@ -36,7 +36,7 @@ class NetworkApiServices extends BaseApiServices {
     }
     return responseJson;
   }
-
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   dynamic returnResponse(https.Response response) {
     switch (response.statusCode) {
       case 200:
